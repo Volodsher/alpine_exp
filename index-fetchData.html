@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ajax test - Alpine</title>
+  </head>
+  <body>
+    <h1>Users API Retrieval Test</h1>
+
+    <div x-data="createDataRetriever()" x-init="getData()">
+      USERS LIST
+      <ul>
+        <template x-for="user in users" :key="user.id">
+          <li>
+            <span class="" x-text="user.phone"></span>
+          </li>
+        </template>
+      </ul>
+    </div>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script>
+      /**
+       * Alpine instance with data retrieval
+       */
+      function createDataRetriever() {
+        return {
+          isLoading: false,
+          users: [],
+          getData() {
+            this.isLoading = true;
+            fetch('https://jsonplaceholder.typicode.com/users')
+              .then((response) => response.json())
+              .then((data) => {
+                this.users = data;
+                this.isLoading = false;
+              });
+          },
+        };
+      }
+    </script>
+  </body>
+</html>
